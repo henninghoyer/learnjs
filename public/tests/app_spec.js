@@ -30,10 +30,31 @@ describe('LearnJS', function() {
 		expect(learnjs.showView).toHaveBeenCalledWith(window.location.hash);
 	});
 
-	describe('problem view', function() {
+	describe('Problem view', function() {
+		var view;
+
+		beforeAll(function() {
+			view = learnjs.problemView('1');
+		});
+
 		it('has a title that includes the problem number', function() {
-			var view = learnjs.problemView('1');
-			expect(view.text()).toEqual('Problem #1 Coming Soon!');
+			expect(view.text().trim()).toContain('Problem #1');
+		});
+
+		describe('Answer Section', function() {
+			it('can check for and accept a correct answer by hitting a button', function() {
+				view.find('.answer').val('true');
+				view.find('.check-btn').click();
+
+				expect(view.find('.result').text()).toEqual('Correct!');
+			});
+
+			it('can check for and reject an incorrect answer by hitting a button', function() {
+				view.find('.answer').val('false');
+				view.find('.check-btn').click();
+
+				expect(view.find('.result').text()).toEqual('Incorrect!');
+			});
 		});
 	});
 });
