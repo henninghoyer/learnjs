@@ -46,7 +46,7 @@ describe('LearnJS', function() {
 				view.find('.answer').val('true');
 				view.find('.check-btn').click();
 
-				expect(view.find('.result').text()).toEqual('Correct!');
+				expect(view.find('.correct-flash > span').text()).toEqual('Correct!');
 			});
 
 			it('can check for and reject an incorrect answer by hitting a button', function() {

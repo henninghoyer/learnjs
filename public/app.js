@@ -18,6 +18,10 @@ learnjs.applyObject = function(obj, elem) {
 	}
 }
 
+learnjs.triggerEvent = function(name, args) {
+	$('.view-container>*').trigger(name, args);
+}
+
 learnjs.fadeElement = function(elem, content) {
 	elem.fadeOut('fast', function() {
 		elem.html(content);
@@ -43,12 +47,26 @@ learnjs.buildCorrectFlashCard = function(problemNumber) {
 	return flashCard;
 }
 
+learnjs.landingView = function() {
+	return learnjs.template('landing-view');
+}
+
 learnjs.problemView = function(data) {
 	var problemNumber = parseInt(data, 10);
-	var view = $('problem-view');
+	var view = learnjs.template('problem-view');
 	var problemData = learnjs.problemStoreArray[problemNumber-1];
 	var resultFlashCard = view.find('.result');
 
+	//Add Skip Button if possible
+	if(problemNumber < learnjs.problemStoreArray.length) {
+		var button = learnjs.template('skip-btn');
+		button.find('a').attr('href', '#problem-' + (problemNumber + 1));
+		$('.nav-list').append(button);
+
+		view.bind('removingView', function() {
+			button.remove();
+		});
+	}
 	function checkAnswer() {
 		var answer = view.find('.answer').val();
 		var test = problemData.code.replace('__', answer) + '; problem();';
@@ -76,7 +94,9 @@ learnjs.problemView = function(data) {
 
 learnjs.showView = function(hash) {
 	var routes = {
-		'#problem': learnjs.problemView
+		'#problem': learnjs.problemView,
+		'': learnjs.landingView,
+		'#': learnjs.landingView
 	};
 
 	var hashParts = hash.split('-');
@@ -84,6 +104,7 @@ learnjs.showView = function(hash) {
 	var viewFn = routes[hashParts[0]];
 
 	if(viewFn) {
+		learnjs.triggerEvent('removingView', []);
 		$('.view-container').empty().append(viewFn(hashParts[1]));
 	}
 }
