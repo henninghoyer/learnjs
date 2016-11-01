@@ -25,9 +25,27 @@ learnjs.fadeElement = function(elem, content) {
 	});
 }
 
+learnjs.template = function(name) {
+	return $('.templates .' + name).clone();
+}
+
+learnjs.buildCorrectFlashCard = function(problemNumber) {
+	var flashCard = learnjs.template('correct-flash');
+	var link 	  = flashCard.find('a');
+
+	if(problemNumber < learnjs.problemStoreArray.length) {
+		link.attr('href', '#problem-' + (problemNumber + 1));
+	} else {
+		link.attr('href', '');
+		link.text('All done! Nice job.');
+	}
+
+	return flashCard;
+}
+
 learnjs.problemView = function(data) {
 	var problemNumber = parseInt(data, 10);
-	var view = $('.templates .problem-view').clone();
+	var view = $('problem-view');
 	var problemData = learnjs.problemStoreArray[problemNumber-1];
 	var resultFlashCard = view.find('.result');
 
@@ -40,7 +58,8 @@ learnjs.problemView = function(data) {
 
 	function checkAnswerClick() {
 		if(checkAnswer()) {
-			learnjs.fadeElement(resultFlashCard, 'Correct!');
+			var correctFlash = learnjs.buildCorrectFlashCard(problemNumber);
+			learnjs.fadeElement(resultFlashCard, correctFlash);
 		} else {
 			learnjs.fadeElement(resultFlashCard, 'Incorrect!');
 		}
