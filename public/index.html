@@ -2,11 +2,13 @@
 <html>
   <head>
     <meta charset='utf-8'>
+    <meta charset='google-signin-client_id' content='<Client ID Here'>
     <title>Learn JS!</title>
     <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.2/normalize.min.css'>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css'>
     <script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
+    <script src='https://apis.google.com/js/platform.js' async defer></script>
     <script src='/vendor.js'></script>
     <script src='/app.js'></script>
     <style type="text/css" media="all">
@@ -18,6 +20,10 @@
       }
       .nav-container a {
         color: white;
+      }
+      .navbar-padding {
+        padding-top: 7px;
+        display: inline-block;
       }
       .inline-list {
         margin-bottom: 0px; /*skeleton reset*/
@@ -48,11 +54,15 @@
   <body>
     <div class='markup'>
       <div class="nav-container no-select fixed-top u-full-width">
-        <ul class="inline-list hover-links nav-list six columns"
-        >
+        <ul class="inline-list hover-links nav-list six columns">
           <li><a class="text-lg" href="#">LearnJS</a></li>
           <li><a href="#problem-1">Start</a></li>
         </ul>
+        <div class='four columns'>
+          <span class='navbar-padding u-pull-right'>
+            <span class="g-signin2" data-onsuccess="googleSignIn"></span>
+          </span>
+        </div>
       </div>
       <div class='view-container container'>
       </div>

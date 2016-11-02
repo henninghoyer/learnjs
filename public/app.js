@@ -1,6 +1,23 @@
 'use strict';
 var learnjs = {};
 
+learnjs.poolId = {
+	poolId: 'eu-central-1:....'
+}
+/*Callback for Google API*/
+function googleSignIn() {
+	var id_token = googleUser.getAuthResponse().id_token;
+	AWS.config.update({
+		region: 'eu-central-1',
+		credentials: new AWS.CognitoIdentityCredentials({
+			IdentityPoolId: learnjs.poolId,
+			Logins: {
+				'accounts.google.com': id_token
+			}
+		})
+	})
+}
+
 learnjs.problemStoreArray = [
 	{
 		description: "What is truth?",
