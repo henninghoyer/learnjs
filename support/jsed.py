@@ -7,11 +7,11 @@ doc = json.load(json_file)
 
 keys = sys.argv[2].split('.')
 
-def search(d, keys):
+def search(doc, keys):
     if len(keys) == 1:
-        return d[keys[0]]
+        return doc[keys[0]]
     else:
-        return search(d[keys[0]], keys[1:])
+        return search(doc[keys[0]], keys[1:])
 
-print search(doc, keys)
+print(search(doc, keys))
 
